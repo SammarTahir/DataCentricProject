@@ -24,9 +24,9 @@ public class Neo4jDao {
 		System.out.println("In load Courses");
 		Session session = driver.session();
 		Object name;
-		StatementResult result =
-				session.run("match(p:Person{name: $name})-[:STUDIES]->(course) return course.name",
-						parameters("name", name));
+		//StatementResult result =
+				//session.run("match(p:Person{name: $name})-[:STUDIES]->(course) return course.name",
+					//	parameters("name", ));
 		return null;
 
 	}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:event type="preRenderView"
+		listener="#{studentController.findStudent(student)}" />
+</f:metadata>
+<h:head>
+	<title>List Courses</title>
+	<h:outputStylesheet library="css" name="tables.css" />
+</h:head>
+<h:body>
+	<h:messages styleClass="error" />
+	<h:form>
+		<h:dataTable value="#{studentController.students}" var="student"
+			styleClass="table" headerClass="table-header"
+			rowClasses="table-odd-row,table-even-row">
+			<h:column>
+				<f:facet name="header">Student ID</f:facet>
+			#{student.sid}
+		</h:column>
+			<h:column>
+				<f:facet name="header">Course ID</f:facet>
+ 	 		#{student.cID}
+		</h:column>
+			<h:column>
+				<f:facet name="header">Student Name</f:facet>
+ 	 		#{student.name}
+		</h:column>
+		</h:dataTable>
+		<br />
+		<h:link value="Home" outcome="index" />
+	</h:form>
+</h:body>
+</html>

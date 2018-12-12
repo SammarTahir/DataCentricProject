@@ -5,7 +5,7 @@
 
 <f:metadata>
 	<f:event type="preRenderView"
-		listener="#{courseController.loadCourses}" />
+		listener="#{studentController.loadStudent}" />
 </f:metadata>
 <h:head>
 	<title>List Courses</title>
@@ -14,34 +14,31 @@
 <h:body>
 	<h:messages styleClass="error" />
 	<br />
-	<h:button value="Add Course" outcome="add_course" />
+	<h:button value="Add Student" outcome="add_student" />
 	<br />
 	<h:form>
-		<h:dataTable value="#{courseController.courses}" var="course"
+		<h:dataTable value="#{studentController.students}" var="student"
 			styleClass="table" headerClass="table-header"
 			rowClasses="table-odd-row,table-even-row">
 			<h:column>
+				<f:facet name="header">Student ID</f:facet>
+			#{student.sid}
+		</h:column>
+			<h:column>
 				<f:facet name="header">Course ID</f:facet>
-			#{course.cID}
+ 	 		#{student.cID}
 		</h:column>
 			<h:column>
-				<f:facet name="header">Course Name</f:facet>
- 	 		#{course.cName}
+				<f:facet name="header">Name</f:facet>
+ 	 		#{student.name}
 		</h:column>
 			<h:column>
-				<f:facet name="header">Duartion</f:facet>
- 	 		#{course.duration}
-		</h:column>
-			<h:column>
-				<f:facet name="header">Show students</f:facet>
-				<h:commandLink value="student details"
-					action="#{studentController.findStudent(student)}"
-					outcome="course_student_details" />
+				<f:facet name="header">All Details</f:facet>
 			</h:column>
 			<h:column>
 				<h:commandLink
-					onclick="if (! confirm('Do you want to Delete this Course?')) return false"
-					value="Delete" action="#{courseController.deleteCourse(course)}">
+					onclick="if (! confirm('Do you want to Delete this Student?')) return false"
+					value="Delete" action="#{studentController.deleteStudent(student)}">
 				</h:commandLink>
 			</h:column>
 		</h:dataTable>

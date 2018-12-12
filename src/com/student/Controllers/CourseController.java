@@ -74,4 +74,6 @@ public class CourseController {
 		return "list_courses";
 
 	}
+	
+	
 }

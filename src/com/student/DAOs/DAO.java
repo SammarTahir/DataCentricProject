@@ -38,29 +38,7 @@ public class DAO {
 		}
 		return courses;
 	}
-
-	// Loads in information about students on list_courses when show student details
-	// is pressed
-	public ArrayList<Student> loadStudents() throws SQLException {
-		System.out.println("In load Student");
-		Connection conn = mysqlDS.getConnection();
-		Statement myStmt = conn.createStatement();
-		String query = "select * from student where cID like ?";
-		ResultSet rs = myStmt.executeQuery(query);
-		ArrayList<Student> students = new ArrayList<Student>();
-
-		while (rs.next()) {
-			String sid = rs.getString("sid");
-			String cID = rs.getString("cID");
-			String name = rs.getString("name");
-			String address = rs.getString("address");
-
-			Student s = new Student(sid, cID, name, address);
-			students.add(s);
-		}
-		return students;
-	}
-
+	
 	// This method adds a new course
 	public void addCourse(Course courses) throws Exception {
 		Connection conn = null;
@@ -88,60 +66,77 @@ public class DAO {
 		myStmt.setString(1, courses.getcID());
 		myStmt.execute();
 	}
+
+	// Finding students 
+	public ArrayList<Student> findStudent(Student student) throws Exception {
+		System.out.println("In load Student");
+		Connection conn = mysqlDS.getConnection();
+		Statement myStmt = conn.createStatement();
+		String query = "select * from Student";
+		ResultSet rs = myStmt.executeQuery(query);
+		ArrayList<Student> studentList = new ArrayList<Student>();
+		/*conn = mysqlDS.getConnection();
+		String sql = "select * from student where cID like ?";
+		myStmt = conn.prepareStatement(sql);
+		myStmt.execute();*/
+		
+		while (rs.next()) {
+			String sid = rs.getString("sid");
+			String cID = rs.getString("cID");
+			String name = rs.getString("name");
+			String address = rs.getString("address");
+
+			Student s = new Student(sid, cID, name, address);
+			studentList.add(s);
+		} 
+		return studentList;
+	}
+
+	public ArrayList<Student> loadStudent() throws SQLException{
+		System.out.println("In load Students");
+		Connection conn = mysqlDS.getConnection();
+		Statement myStmt = conn.createStatement();
+		String query = "select * from student";
+		ResultSet rs = myStmt.executeQuery(query);
+		ArrayList<Student> students = new ArrayList<Student>();
+
+		while (rs.next()) {
+			String sid = rs.getString("sid");
+			String cID = rs.getString("cID");
+			String name = rs.getString("name");
+			String address = rs.getString("address");
+
+			Student s = new Student(sid, cID, name, address);
+			students.add(s);
+		}
+		return students;
+	}
+
+	public void addStudent(Student students) throws Exception{
+		Connection conn = null;
+		PreparedStatement myStmt = null;
+		ResultSet rs = null;
+
+		conn = mysqlDS.getConnection();
+		String sql = "insert into student values (?, ?, ?, ?)";
+		myStmt = conn.prepareStatement(sql);
+		myStmt.setString(1, students.getSid());
+		myStmt.setString(2, students.getcID());
+		myStmt.setString(3, students.getName());
+		myStmt.setString(4, students.getAddress());
+		myStmt.execute();
+		
+	}
 	
-	//find city
-		/*public ArrayList<City> findCity(City city, String opt) throws Exception{
-			ArrayList<City> cityList = new ArrayList<City>();
-			Connection myConn = null;
-			PreparedStatement myStmt = null;
-			ResultSet myRs = null;
-			int i = 1;
-			
-			myConn = mysqlDS.getConnection();
-			query.append("SELECT * from city where isCoastal = ?");
-			
-			
-			if(!city.getCountryName().equals("")) {
-				query.append(" and co_code = ?");
-			}
-			
-			if(city.getPopulation() != 0) {
-				if(opt.equals("lt")) {
-					query.append(" and population < ?");
-				} else if (opt.equals("gt")) {
-					query.append(" and population > ?");
-				} else if (opt.equals("e")) {
-					query.append(" and population = ?");
-				}
-			}
-			myStmt = myConn.prepareStatement(query.toString());
-			myStmt.setBoolean(i, city.getCoastal());
-			if(city.getPopulation() != 0) {
-				myStmt.setInt(i++, city.getPopulation());
-			}
-			if(!city.getCocode().equals("")) {
-				myStmt.setString(i++, city.getCocode());
-			}
-			
-			myRs = myStmt.executeQuery();
-			
-			while (myRs.next()) {
-				city.setCtycode(myRs.getString("cty_code"));
-				city.setAreaKM(myRs.getDouble("areaKM"));
-				city.setCoastal(myRs.getBoolean("isCoastal"));
-				city.setCocode(myRs.getString("co_code"));
-				city.setCtyname(myRs.getString("cty_name"));
-				city.setPopulation(myRs.getInt("population"));
-				city.setRegcode(myRs.getString("reg_code"));
-				city.setRegiomName(myRs.getString("reg_name"));
-				city.setCountryName(myRs.getString("co_name"));
-				
-				cityList.add(city);
-			} // while
-			
-			myRs.close();
-			myStmt.close();
-			return cityList;		
-			
-		}*/
+	public void deleteStudent(Student student) throws Exception {
+		Connection conn = null;
+		PreparedStatement myStmt = null;
+		ResultSet rs = null;
+
+		conn = mysqlDS.getConnection();
+		String sql = "delete from student where sid like ?";
+		myStmt = conn.prepareStatement(sql);
+		myStmt.setString(1, student.getSid());
+		myStmt.execute();
+	}
 }
